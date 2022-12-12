@@ -40,7 +40,7 @@ function Login() {
     <div className="h-[100vh] bg-purple-400 flex flex-row justify-center items-center">
       <div className="h-[80vh] md:h-[70vh] w-[70vw] bg-white rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-2 text-center items-center">
         <div className='h-[50vh] grid grid-rows-4 auto-rows-min md:auto-rows-max justify-center content-between'>
-          <p className='text-md font-bold'>{!register ? 'Entrar' : 'Registrate'}</p>
+          <p className='text-md font-bold'>{!register ? 'Iniciar sesion' : 'Registrate'}</p>
           <div className="mb-6 text-start">
             <label className="block text-gray-700 text-sm font-bold mb-2" for="username">
               Nombre de usuario
