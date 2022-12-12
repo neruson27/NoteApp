@@ -40,10 +40,10 @@ function Login() {
     <div className="h-[100vh] bg-purple-400 flex flex-row justify-center items-center">
       <div className="h-[80vh] md:h-[70vh] w-[70vw] bg-white rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-2 text-center items-center">
         <div className='h-[50vh] grid grid-rows-4 auto-rows-min md:auto-rows-max justify-center content-between'>
-          <p className='text-md font-bold'>{!register ? 'Login' : 'Register'}</p>
+          <p className='text-md font-bold'>{!register ? 'Entrar' : 'Registrate'}</p>
           <div className="mb-6 text-start">
             <label className="block text-gray-700 text-sm font-bold mb-2" for="username">
-              Username
+              Nombre de usuario
             </label>
             <input 
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -57,7 +57,7 @@ function Login() {
           </div>
           <div className="mb-6 text-start">
             <label className="block text-gray-700 text-sm font-bold mb-2" for="password">
-              Password
+              Contraseña
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
@@ -68,14 +68,14 @@ function Login() {
                 setPassword(ev.target.value);
               }}
             />
-            {showMessage ? <p className="text-red-500 text-xs italic">Please choose a password.</p> : <></>}
+            {showMessage ? <p className="text-red-500 text-xs italic">Por favor elije una contraseña.</p> : <></>}
           </div>
           <div className='self-end'>
             <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={fetchData}>
-              {!register ? 'Sign In' : 'Sign Up'}
+              {!register ? 'Entrar' : 'Registrarse'}
             </button>
             <p className="text-purple-500 hover:cursor-pointer hover:text-purple-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={viewChange}>
-              {!register ? 'Register' : 'Login'}
+              {!register ? 'Registrate' : 'Entra'}
             </p>
           </div>
         </div>
