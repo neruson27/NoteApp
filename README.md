@@ -5,3 +5,7 @@ We need create a .env file in the root of directory with this value:
 
 after all you can run the project with:
 ```npm run start```
+
+
+you can see live in:
+```https://note-app-neru.vercel.app/```
