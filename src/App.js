@@ -34,7 +34,7 @@ function App() {
 
   const fetchData = useCallback(async () => {
     const response = await backendNotes('get', `/note`, undefined, jwt);
-    setNotes(response.data);
+    setNotes(response?.data ?? []);
     setForceSortingBarUpdate(getRandomKey());
   }, [jwt])
 
