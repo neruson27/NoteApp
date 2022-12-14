@@ -68,7 +68,7 @@ function Login() {
   return ( 
     <div className="h-[100vh] bg-purple-400 flex flex-col justify-center items-center">
       <div className="h-[90vh] md:h-[70vh] w-[90vw] md:w-[70vw] bg-white rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-2 text-center items-center">
-        <div className='h-[45vh] md:h-[50vh] grid grid-rows-4 auto-rows-min md:auto-rows-max justify-center content-between'>
+        <div className='h-[50vh] md:h-[50vh] grid grid-rows-4 auto-rows-min md:auto-rows-max justify-center content-between'>
           <p className='text-md font-bold self-center md:self-start'>{!register ? 'Iniciar sesion' : 'Registrate'}</p>
           <div className="mb-6 text-start">
             <label className="block text-gray-700 text-sm font-bold mb-2" for="username">
@@ -109,7 +109,7 @@ function Login() {
           </div>
         </div>
         <div className='h-[40vh] md:h-[50vh] grid grid-rows-4 auto-rows-min md:auto-rows-max justify-center content-between'>
-          <img src={logo} alt="Logo" className='h-[40vh] md:h-[50vh]'/>
+          <img src={logo} alt="Logo" className='h-[35vh] md:h-[50vh]'/>
         </div>
       </div>
       <p className='mt-1 text-white'>Created By: Neru</p>
