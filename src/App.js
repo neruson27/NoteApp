@@ -7,40 +7,68 @@ import SortingBar from './Components/SortingBar';
 import AddNote from "./Components/AddNote";
 import Notes from "./Components/Notes";
 import Note from './Components/Note';
+import DeleteModal from './Components/DeleteModal';
 
 function getRandomKey() {
-  return Math.floor(Math.random() * 100);
+  return Math.floor(Math.random() * 1000);
 }
 
 function App() {
   const navigate = useNavigate();
-  const [ jwt ] = useLocalStorage("jwt", '');
+  const [ jwt, setJwt ] = useLocalStorage('jwt', '');
+  const [ user ] = useLocalStorage('user', '');
   const [ notes, setNotes ] = useState(null);
-  const [ selectedTab, setSelectedTab ] = useState("notes");
+  const [ selectedTab, setSelectedTab ] = useState('notes');
   const [ selectedNote, setSelectedNote ] = useState(null);
-  const [ showModal , setShowModal ] = useState(false);
-  const [ forceNotesUpdate, setNotesForceUpdate ] = useState(0);
-  const [ forceSortingBarUpdate, setForceSortingBarUpdate] = useState(1);
+  const [ showNote , setShowNote ] = useState(false);
+  const [ showDelete, setShowDelete ] = useState(false);
+  const [ forceNotesUpdate, setNotesForceUpdate ] = useState(getRandomKey());
+  const [ forceSortingBarUpdate, setForceSortingBarUpdate] = useState(getRandomKey());
 
-  const openModal = (note) => {
+  const openNote = (note) => {
     setSelectedNote(note);
-    setShowModal(true);
+    setShowNote(true);
   }
 
-  const closeModal = () => {
+  const closeNote = () => {
     setSelectedNote(null);
-    setShowModal(false);
+    setShowNote(false);
+  }
+
+  const openDeteleModal = (note) => {
+    setSelectedNote(note);
+    setShowDelete(true);
+  }
+
+  const closeDeleteModal = () => {
+    setSelectedNote(null);
+    setShowDelete(false);
   }
 
   const fetchData = useCallback(async () => {
-    const response = await backendNotes('get', `/note`, undefined, jwt);
+    const response = await backendNotes('get', `/note`, undefined, jwt)
+      .catch(err => {
+        console.log(err)
+      });
     setNotes(response?.data ?? []);
     setForceSortingBarUpdate(getRandomKey());
   }, [jwt])
 
+  const deleteData = useCallback(async (id) => {
+    const response = await backendNotes('delete', `/note/${id}`, undefined, jwt)
+    if (response.status === 200) {
+      fetchData();
+      closeDeleteModal();
+    }
+  }, [jwt, fetchData])
+
   const sortBy = useCallback(({target}) => {
     const notesSorted = notes.sort((a, b) => {
-        return a[target.value] > b[target.value] ? 1 : -1;
+      const condition = target.value === 'createAt' || target.value === 'updateAt';
+      const value1 = condition ? new Date(a[target.value]) : a[target.value]?.toLowerCase();
+      const value2 = condition ? new Date(b[target.value]) : b[target.value]?.toLowerCase();
+
+      return value1 > value2 ? 1 : -1;
     })
 
     setNotes(notesSorted);
@@ -49,7 +77,7 @@ function App() {
 
   const filter = useCallback((oldNotes, text) => {
     const notesFiltered = oldNotes.filter(note => {
-      return note.title.includes(text) || note.body.includes(text)
+      return note.title.toLowerCase().includes(text) || note.body.toLowerCase().includes(text)
     })
 
     setNotes(notesFiltered);
@@ -58,9 +86,7 @@ function App() {
 
   useEffect(() => {
     if (!notes) {
-      console.log('fetching')
-      fetchData()
-        .catch(console.error)
+      fetchData();
     }
   }, [fetchData, notes]);
 
@@ -77,7 +103,7 @@ function App() {
       content: (
         <>
           <SortingBar notes={notes} sortBy={sortBy} filter={filter} key={forceSortingBarUpdate}/>
-          <Notes openModal={openModal} fetchData={fetchData} notes={notes} key={forceNotesUpdate}/>
+          <Notes openNote={openNote} openDeleteModal={openDeteleModal} fetchData={fetchData} notes={notes} key={forceNotesUpdate}/>
         </>
       )
     },
@@ -89,12 +115,19 @@ function App() {
   ]
 
   return ( 
-    <div className="h-[100vh] bg-purple-400 flex flex-row justify-center items-center">
-      <div className="h-[90vh] md:h-[80vh] w-[80vw] bg-white rounded-lg border-purple-200 border-2 shadow-lg flex justify-center">
-        <div className="w-[65vw] mt-2" value="notes">
+    <div className="h-[100vh] bg-purple-400 flex flex-col justify-center items-center">
+      <div className="w-[90vw] md:w-[80vw] mb-1 flex flex-row justify-center">
+        <p className="text-white mr-2">Bienvenido:</p>
+        <p className="text-white">{user}</p>
+      </div>
+      <div className="h-[90vh] md:h-[80vh] w-[90vw] md:w-[80vw] bg-white rounded-lg border-purple-200 border-2 shadow-lg flex justify-center">
+        <div className="w-[80vw] md:w-[65vw] mt-2" value="notes">
           <div className="bg-blue-50 rounded-lg py-1 flex justify-between mb-2">
             {data.map(({ label, value }) => (
-              <div className={(value === selectedTab ? 'bg-purple-300 text-white border-2 border-purple-400' : 'text-blue-900' ) + ' rounded-xl hover:cursor-pointer text-center w-[50%] mx-2'} key={value} value={value} onClick={() => {setSelectedTab(value)}}>
+              <div className={(value === selectedTab ? 'bg-purple-300 text-white border-2 border-purple-400' : 'text-blue-900' ) + ' rounded-xl hover:cursor-pointer text-center w-[50%] mx-2'} key={value} value={value} onClick={() => {
+                fetchData();
+                setSelectedTab(value)
+              }}>
                 {label}
               </div>
             ))}
@@ -108,7 +141,9 @@ function App() {
           </div>
         </div>
       </div>
-      {showModal && <Note closeModal={closeModal} fetchData={fetchData} note={selectedNote} />}
+      <p className="mt-1 text-white hover:text-slate-200 hover:cursor-pointer" onClick={() => {setJwt('')}}>Desconectarse</p>
+      {showNote && <Note closeNote={closeNote} fetchData={fetchData} note={selectedNote} />}
+      {showDelete && <DeleteModal closeDeleteModal={closeDeleteModal} deleteData={deleteData} noteId={selectedNote._id}/>}
     </div>
   );
 }
