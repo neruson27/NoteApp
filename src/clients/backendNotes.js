@@ -9,7 +9,9 @@ function backendNoteApp(method, route, data=undefined, token=undefined) {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     }
-  }).catch(err => console.error(err))
+  }).catch(err => {
+    throw err;
+  })
 }
 
 export default backendNoteApp;

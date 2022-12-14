@@ -7,7 +7,7 @@ import closeIcon from '../assets/close.png';
 import useLocalStorage from "../utils/useLocalStorage";
 import { transforDate } from '../utils/dateUtils';
 
-function Note({closeModal, fetchData, note}) {
+function Note({closeNote, fetchData, note}) {
   const navigate = useNavigate();
   const [ title, setTitle ] = useState(note.title);
   const [ body, setBody ] = useState(note.body);
@@ -24,22 +24,21 @@ function Note({closeModal, fetchData, note}) {
     const response = await backendNotes('put', `/note/${id}`, {title, body}, jwt)
     if (response.status === 200) {
       fetchData();
-      closeModal();
+      closeNote();
     }
-  }, [jwt, title, body, fetchData, closeModal])
+  }, [jwt, title, body, fetchData, closeNote])
 
   return (
     <>
       <div className="bg-slate-800/50 fixed w-[100vw] h-[100vh] flex flex-row justify-center items-center" onClick={(e) => {
-        e.stopPropagation();
-        closeModal()
+        closeNote()
       }}>
-        <div className="bg-slate-50 hover:bg-slate-100 hover:cursor-pointer rounded p-2 w-6 shadow-lg absolute top-[24%] right-[24%]" onClick={() => closeModal()}>
+        <div className="bg-slate-50 hover:bg-slate-100 hover:cursor-pointer rounded p-2 w-6 shadow-lg absolute top-[14%] right-[14%] md:top-[24%] md:right-[24%]" onClick={() => closeNote()}>
           <img src={closeIcon} alt="close" className='w-[100%]'/>
         </div>
-        <div className=" bg-white rounded p-4 md:inset-0 w-[50vw] h-[50vh] shadow-lg" onClick={(e) => e.stopPropagation()}>
+        <div className=" bg-white rounded p-4 md:inset-0 w-[70vw] md:w-[50vw] h-[70vh] md:h-[50vh] shadow-lg" onClick={(e) => e.stopPropagation()}>
           <div className="p-[4px] rounded">
-            <div className="px-6 py-4 h-[35vh]">
+            <div className="px-6 py-4 h-[50vh] md:h-[35vh]">
               {!updating ? (
                 <>
                   <div className="font-bold text-xl mb-2">{title}</div>
@@ -71,19 +70,19 @@ function Note({closeModal, fetchData, note}) {
                 </>
               )}
             </div>
-            <div className='w-[100%] p-4 flex flex-row justify-between items-center'>
-              <div className='w-[40%]'>
+            <div className='w-[100%] p-4 flex flex-col md:flex-row justify-between items-center'>
+              <div className='w-[100%] flex justify-center md:justify-start md:w-[40%]'>
                 {!updating ? (
                   <button className='bg-purple-400 hover:bg-purple-500 rounded p-2 text-white' onClick={() => setUpdating(true)}>Actualizar</button>
                 ) : (
-                  <div className='flex flex-row justify-around'>
-                    <button className='bg-green-400 hover:bg-green-500 disabled:bg-green-300 rounded p-2 text-white' onClick={() => updateData(note._id)} disabled={!title || !body}>Guardar</button>
+                  <div className='w-[80%] md:w-[90%] flex flex-row justify-around'>
+                    <button className='bg-green-400 hover:bg-green-500 disabled:bg-green-300 rounded p-2 text-white' onClick={() => updateData(note._id)} disabled={!title || !body}>Confirmar</button>
                     <button className='bg-red-400 hover:bg-red-500 disabled:bg-red-300 rounded p-2 text-white' onClick={() => setUpdating(false)}>Cancelar</button>
                   </div>
                 )}
               </div>
-              <div className="w-[40%]">
-                <p className='text-gray-300 text-end'>{transforDate(note.createAt)}</p>
+              <div className="w-[100%] md:w-[40%]">
+                <p className='text-gray-300 text-center md:text-end'>{transforDate(note.updateAt ?? note.createAt)}</p>
               </div>
             </div>
           </div>
