@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { transforDate } from '../utils/dateUtils';
+import { transforDate } from '../../utils/dateUtils';
 
 function Notes({openNote, openDeleteModal, notes}) {
   const [ loading, setLoading ] = useState(true);
@@ -25,7 +25,6 @@ function Notes({openNote, openDeleteModal, notes}) {
           <div className='w-[100%] p-2 md:p-4 flex flex-col md:flex-row md:justify-between items-center' onClick={e => e.stopPropagation()}>
             <div className="w-[100%] md:w-[45%] p-2">
               <p className='text-gray-300 text-center md:text-start'>{transforDate(note.createAt)}</p>
-              {note.updateAt && <p className='text-gray-200 text-center md:text-start'>Ultima actualizacion: {transforDate(note.updateAt)}</p>}
             </div>
             <div className='w-[100%] flex justify-center md:justify-end md:w-[45%]'>
               <button className='bg-red-400 hover:bg-red-500 rounded p-2 text-white' onClick={() => openDeleteModal(note)}>Eliminar</button>

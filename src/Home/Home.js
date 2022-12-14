@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-import useLocalStorage from "./utils/useLocalStorage";
-import backendNotes from './clients/backendNotes';
+import useLocalStorage from "../utils/useLocalStorage";
+import backendNotes from '../clients/backendNotes';
 import SortingBar from './Components/SortingBar';
 import AddNote from "./Components/AddNote";
 import Notes from "./Components/Notes";
@@ -13,7 +13,7 @@ function getRandomKey() {
   return Math.floor(Math.random() * 1000);
 }
 
-function App() {
+function Home() {
   const navigate = useNavigate();
   const [ jwt, setJwt ] = useLocalStorage('jwt', '');
   const [ user ] = useLocalStorage('user', '');
@@ -148,4 +148,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
