@@ -1,11 +1,11 @@
 import { useCallback, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
-import backendNotes from '../clients/backendNotes';
+import backendNotes from '../../clients/backendNotes';
 
-import closeIcon from '../assets/close.png';
-import useLocalStorage from "../utils/useLocalStorage";
-import { transforDate } from '../utils/dateUtils';
+import closeIcon from '../../assets/close.png';
+import useLocalStorage from "../../utils/useLocalStorage";
+import { transforDate } from '../../utils/dateUtils';
 
 function Note({closeNote, fetchData, note}) {
   const navigate = useNavigate();
@@ -82,7 +82,7 @@ function Note({closeNote, fetchData, note}) {
                 )}
               </div>
               <div className="w-[100%] md:w-[40%]">
-                <p className='text-gray-300 text-center md:text-end'>{transforDate(note.updateAt ?? note.createAt)}</p>
+                {!note.updateAt ? <p className='text-gray-300 text-center md:text-end'>{transforDate(note.createAt)}</p> : <p className='text-gray-300 text-center md:text-start'>Ultima actualizacion: {transforDate(note.updateAt)}</p>}
               </div>
             </div>
           </div>

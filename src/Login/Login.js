@@ -1,10 +1,11 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import backendNotes from '../clients/backendNotes';
+
 import { decodeJWT } from "../utils/jwt";
 import useLocalStorage from '../utils/useLocalStorage';
 import errorParse from '../utils/apiErrorsParse';
-import backendNotes from '../clients/backendNotes';
 
 import logo from '../assets/NoteApp.png';
 

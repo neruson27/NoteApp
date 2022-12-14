@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import backendNoteApp from '../clients/backendNotes';
+import backendNoteApp from '../../clients/backendNotes';
 
 function AddNote({ token, fetchData, changeTab }) {
   const [title, setTitle] = useState('');
