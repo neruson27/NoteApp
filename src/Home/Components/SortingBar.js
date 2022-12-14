@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 function SortingBar({notes, sortBy, filter}) {
+  // State
   const [ search, setSearch ] = useState('');
   const [ oldNotes ] = useState(notes);
 

@@ -1,18 +1,22 @@
 import { useCallback, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-
+// Service
 import backendNotes from '../../clients/backendNotes';
-
-import closeIcon from '../../assets/close.png';
+// Utils
 import useLocalStorage from "../../utils/useLocalStorage";
 import { transforDate } from '../../utils/dateUtils';
+// Assets
+import closeIcon from '../../assets/close.png';
 
 function Note({closeNote, fetchData, note}) {
+  // Navigate
   const navigate = useNavigate();
+  // LocalStorage
+  const [ jwt ] = useLocalStorage("jwt", '');
+  // State
   const [ title, setTitle ] = useState(note.title);
   const [ body, setBody ] = useState(note.body);
   const [ updating, setUpdating ] = useState(false);
-  const [ jwt ] = useLocalStorage("jwt", '');
 
   useEffect(() => {
     if (!jwt) {

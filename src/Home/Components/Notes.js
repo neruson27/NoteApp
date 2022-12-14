@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-
+// Utils
 import { transforDate } from '../../utils/dateUtils';
 
 function Notes({openNote, openDeleteModal, notes}) {
+  // State
   const [ loading, setLoading ] = useState(true);
 
   useEffect(() => {

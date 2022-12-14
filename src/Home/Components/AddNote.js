@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
+// Service
 import backendNoteApp from '../../clients/backendNotes';
 
 function AddNote({ token, fetchData, changeTab }) {
+  // State
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [save, setSave] = useState(false);

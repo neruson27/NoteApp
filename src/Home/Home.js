@@ -1,8 +1,10 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-
+// Utils
 import useLocalStorage from "../utils/useLocalStorage";
+// Service
 import backendNotes from '../clients/backendNotes';
+// Components
 import SortingBar from './Components/SortingBar';
 import AddNote from "./Components/AddNote";
 import Notes from "./Components/Notes";
@@ -14,9 +16,12 @@ function getRandomKey() {
 }
 
 function Home() {
+  // Navigate
   const navigate = useNavigate();
+  // LocalStorage
   const [ jwt, setJwt ] = useLocalStorage('jwt', '');
   const [ user ] = useLocalStorage('user', '');
+  // State
   const [ notes, setNotes ] = useState(null);
   const [ selectedTab, setSelectedTab ] = useState('notes');
   const [ selectedNote, setSelectedNote ] = useState(null);
@@ -84,18 +89,6 @@ function Home() {
     setNotesForceUpdate(getRandomKey());
   }, [])
 
-  useEffect(() => {
-    if (!notes) {
-      fetchData();
-    }
-  }, [fetchData, notes]);
-
-  useEffect(() => {
-    if (!jwt) {
-      navigate('/login', {replace: true})
-    }
-  }, [jwt, navigate])
-
   const data = [
     {
       label: "Notas",
@@ -113,6 +106,18 @@ function Home() {
       content: <AddNote token={jwt} fetchData={fetchData} changeTab={setSelectedTab} />
     }
   ]
+
+  useEffect(() => {
+    if (!notes) {
+      fetchData();
+    }
+  }, [fetchData, notes]);
+
+  useEffect(() => {
+    if (!jwt) {
+      navigate('/login', {replace: true})
+    }
+  }, [jwt, navigate])
 
   return ( 
     <div className="h-[100vh] bg-purple-400 flex flex-col justify-center items-center">

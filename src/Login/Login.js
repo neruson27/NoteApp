@@ -1,23 +1,26 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+// Service
 import backendNotes from '../clients/backendNotes';
-
+// Utils
 import { decodeJWT } from "../utils/jwt";
 import useLocalStorage from '../utils/useLocalStorage';
 import errorParse from '../utils/apiErrorsParse';
-
+// Assets
 import logo from '../assets/NoteApp.png';
 
 function Login() {
+  // Navigate
   const navigate = useNavigate();
+  // LocalStorage
+  const [jwt, setJwt] = useLocalStorage('jwt', '');
+  const [, setJwtUser] = useLocalStorage('user', '');
+  // State
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   const [register, setRegister] = useState(false);
   const [message, setMessage] = useState('');
   const [showMessage, setShowMessage] = useState(false);
-  const [jwt, setJwt] = useLocalStorage('jwt', '');
-  const [, setJwtUser] = useLocalStorage('user', '');
 
   const resetState = () => {
     setUser('');

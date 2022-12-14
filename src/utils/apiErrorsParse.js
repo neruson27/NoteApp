@@ -1,3 +1,9 @@
+/**
+ * Function to parse error messages from api
+ * 
+ * @param {*} error String
+ * @returns String
+ */
 function errorParse (error) {
   switch(error) {
     case 'USER EXIST':
