@@ -52,9 +52,7 @@ function Home() {
 
   const fetchData = useCallback(async () => {
     const response = await backendNotes('get', `/note`, undefined, jwt)
-      .catch(err => {
-        console.log(err)
-      });
+
     setNotes(response?.data ?? []);
     setForceSortingBarUpdate(getRandomKey());
   }, [jwt])
